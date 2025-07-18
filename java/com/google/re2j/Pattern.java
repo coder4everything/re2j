@@ -109,6 +109,11 @@ public final class Pattern implements Serializable {
     return compile(regex, regex, 0);
   }
 
+
+  public static Pattern compile(String regex, boolean boundaryUnicode) {
+    return compile(regex, regex, 0, boundaryUnicode);
+  }
+
   /**
    * Creates and returns a new {@code Pattern} corresponding to compiling {@code regex} with the
    * given {@code flags}.
@@ -149,6 +154,15 @@ public final class Pattern implements Serializable {
     }
     return new Pattern(
         regex, flags, RE2.compileImpl(flregex, re2Flags, (flags & LONGEST_MATCH) != 0));
+  }
+
+  private static Pattern compile(String flregex, String regex, int flags, boolean boundaryUnicode) {
+    int re2Flags = RE2.PERL;
+    if ((flags & DISABLE_UNICODE_GROUPS) != 0) {
+      re2Flags &= ~RE2.UNICODE_GROUPS;
+    }
+    return new Pattern(
+            regex, flags, RE2.compileImpl(flregex, re2Flags, (flags & LONGEST_MATCH) != 0, boundaryUnicode));
   }
 
   /**

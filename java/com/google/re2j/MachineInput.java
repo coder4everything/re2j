@@ -53,6 +53,9 @@ abstract class MachineInput {
   // Returns a bitmask of EMPTY_* flags.
   abstract int context(int pos);
 
+  // Returns a bitmask of EMPTY_* flags.
+  abstract int context(int pos, boolean boundaryUnicode);
+
   // Returns the end position in the same units as step().
   abstract int endPos();
 
@@ -165,6 +168,32 @@ abstract class MachineInput {
     }
 
     @Override
+    int context(int pos, boolean boundaryUnicode) {
+      pos += this.start;
+      int r1 = -1;
+      if (pos > this.start && pos <= this.end) {
+        int start = pos - 1;
+        r1 = b[start--];
+        if (r1 >= 0x80) { // decode UTF-8
+          // Find start, up to 4 bytes earlier.
+          int lim = pos - 4;
+          if (lim < this.start) {
+            lim = this.start;
+          }
+          while (start >= lim && (b[start] & 0xC0) == 0x80) { // 10xxxxxx
+            start--;
+          }
+          if (start < this.start) {
+            start = this.start;
+          }
+          r1 = step(start) >> 3;
+        }
+      }
+      int r2 = pos < this.end ? (step(pos) >> 3) : -1;
+      return Utils.emptyOpContext(r1, r2, boundaryUnicode);
+    }
+
+    @Override
     int endPos() {
       return end;
     }
@@ -211,6 +240,14 @@ abstract class MachineInput {
       int r1 = pos > 0 && pos <= str.length() ? Character.codePointBefore(str, pos) : -1;
       int r2 = pos < str.length() ? Character.codePointAt(str, pos) : -1;
       return Utils.emptyOpContext(r1, r2);
+    }
+
+    @Override
+    int context(int pos, boolean boundaryUnicode) {
+      pos += start;
+      int r1 = pos > 0 && pos <= str.length() ? Character.codePointBefore(str, pos) : -1;
+      int r2 = pos < str.length() ? Character.codePointAt(str, pos) : -1;
+      return Utils.emptyOpContext(r1, r2, boundaryUnicode);
     }
 
     @Override

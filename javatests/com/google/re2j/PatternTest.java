@@ -113,6 +113,14 @@ public class PatternTest {
   }
 
   @Test
+  public void testBoundary(){
+    assertTrue(Pattern.compile("\\b한글\\b", true).matcher("한글 한글 a한글").find());
+    assertFalse(Pattern.compile("\\b한글\\b", false).matcher("한글 한글 a한글").find());
+    assertTrue(Pattern.compile("\\b한글\\b\\s\\b한글\\b\\s\\b[a-zA-Z]한글\\b", true).matcher("한글 한글 a한글").matches());
+    assertFalse(Pattern.compile("\\b한글\\b\\s\\b한글\\b\\s\\b[a-zA-Z]한글\\b", false).matcher("한글 한글 a한글").matches());
+  }
+
+  @Test
   public void testFind() {
     testFind("ab+c", 0, "xxabbbc", "cbbba");
     testFind("ab+c", Pattern.CASE_INSENSITIVE, "abBBc", "cbbba");

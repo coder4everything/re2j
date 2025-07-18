@@ -163,6 +163,13 @@ abstract class Utils {
     return (('A' <= r && r <= 'Z') || ('a' <= r && r <= 'z') || ('0' <= r && r <= '9') || r == '_');
   }
 
+  static boolean isWordRune(int r, boolean boundaryUnicode) {
+    if(boundaryUnicode){
+      return (Unicode.isLetter(r) || ('0' <= r && r <= '9') || r == '_');
+    }else{
+      return (('A' <= r && r <= 'Z') || ('a' <= r && r <= 'z') || ('0' <= r && r <= '9') || r == '_');
+    }
+  }
   //// EMPTY_* flags
 
   static final int EMPTY_BEGIN_LINE = 0x01;
@@ -194,6 +201,28 @@ abstract class Utils {
       op |= EMPTY_END_LINE;
     }
     if (isWordRune(r1) != isWordRune(r2)) {
+      op |= EMPTY_WORD_BOUNDARY;
+    } else {
+      op |= EMPTY_NO_WORD_BOUNDARY;
+    }
+    return op;
+  }
+
+  static int emptyOpContext(int r1, int r2, boolean boundaryUnicode) {
+    int op = 0;
+    if (r1 < 0) {
+      op |= EMPTY_BEGIN_TEXT | EMPTY_BEGIN_LINE;
+    }
+    if (r1 == '\n') {
+      op |= EMPTY_BEGIN_LINE;
+    }
+    if (r2 < 0) {
+      op |= EMPTY_END_TEXT | EMPTY_END_LINE;
+    }
+    if (r2 == '\n') {
+      op |= EMPTY_END_LINE;
+    }
+    if (isWordRune(r1, boundaryUnicode) != isWordRune(r2, boundaryUnicode)) {
       op |= EMPTY_WORD_BOUNDARY;
     } else {
       op |= EMPTY_NO_WORD_BOUNDARY;

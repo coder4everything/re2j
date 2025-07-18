@@ -235,9 +235,9 @@ class Machine {
     }
     int flag; // bitmask of EMPTY_* flags
     if (pos == 0) {
-      flag = Utils.emptyOpContext(-1, rune);
+      flag = Utils.emptyOpContext(-1, rune, re2.boundaryUnicode);
     } else {
-      flag = in.context(pos);
+      flag = in.context(pos, re2.boundaryUnicode);
     }
     for (; ; ) {
 
@@ -274,7 +274,7 @@ class Machine {
         add(runq, prog.start, pos, matchcap, flag, null);
       }
       int nextPos = pos + width;
-      flag = in.context(nextPos);
+      flag = in.context(nextPos, re2.boundaryUnicode);
       step(runq, nextq, pos, nextPos, rune, flag, anchor, pos == in.endPos());
       if (width == 0) { // EOF
         break;

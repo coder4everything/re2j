@@ -115,6 +115,8 @@ class RE2 {
   boolean prefixComplete; // true iff prefix is the entire regexp
   int prefixRune; // first rune in prefix
 
+  boolean boundaryUnicode;
+
   // Cache of machines for running regexp. Forms a Treiber stack.
   private final AtomicReference<Machine> pooled = new AtomicReference<Machine>();
 
@@ -199,6 +201,13 @@ class RE2 {
       re2.prefixRune = re2.prefix.codePointAt(0);
     }
     re2.namedGroups = re.namedGroups;
+    return re2;
+  }
+
+  // Exposed to ExecTests.
+  static RE2 compileImpl(String expr, int mode, boolean longest, boolean boundaryUnicode) throws PatternSyntaxException {
+    RE2 re2 = compileImpl(expr, mode, longest);
+    re2.boundaryUnicode = boundaryUnicode;
     return re2;
   }
 
