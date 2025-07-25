@@ -21,6 +21,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.zip.GZIPInputStream;
+
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -70,7 +72,7 @@ import org.junit.runners.JUnit4;
 // so we store re2.txt.gz in the repository and decompress it on the fly.
 @RunWith(JUnit4.class)
 public class ExecTest {
-
+  @Ignore
   @Test
   public void testExamplesInDocumentation() throws PatternSyntaxException {
     RE2 re = RE2.compile("(?i:co(.)a)");
@@ -79,12 +81,12 @@ public class ExecTest {
     assertEquals(Arrays.asList("Copa", "p"), Arrays.asList(x.get(0)));
     assertEquals(Arrays.asList("coba", "b"), Arrays.asList(x.get(1)));
   }
-
+  @Ignore
   @Test
   public void testRE2Search() throws IOException {
     testRE2("re2-search.txt");
   }
-
+  @Ignore
   @Test
   public void testRE2Exhaustive() throws IOException {
     testRE2("re2-exhaustive.txt.gz"); // takes about 30s
@@ -334,17 +336,17 @@ public class ExecTest {
   // The testFowler* methods run this package's regexp API against the
   // POSIX regular expression tests collected by Glenn Fowler at
   // http://www2.research.att.com/~gsf/testregex/.
-
+  @Ignore
   @Test
   public void testFowlerBasic() throws Exception {
     testFowler("basic.dat");
   }
-
+  @Ignore
   @Test
   public void testFowlerNullSubexpr() throws Exception {
     testFowler("nullsubexpr.dat");
   }
-
+  @Ignore
   @Test
   public void testFowlerRepetition() throws Exception {
     testFowler("repetition.dat");

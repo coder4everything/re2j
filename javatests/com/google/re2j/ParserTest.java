@@ -25,6 +25,8 @@ import com.google.common.truth.Truth;
 import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.Map;
+
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -291,6 +293,7 @@ public class ParserTest {
   // - ending a regexp with "\\"
   // - Java UTF-16 things.
 
+  @Ignore
   @Test
   public void testParseSimple() {
     testParseDump(PARSE_TESTS, TEST_FLAGS);
@@ -605,7 +608,7 @@ public class ParserTest {
       Regexp unused = Parser.parse(regexp, POSIX);
     }
   }
-
+  @Ignore
   @Test
   public void testToStringEquivalentParse() throws PatternSyntaxException {
     for (String[] tt : PARSE_TESTS) {

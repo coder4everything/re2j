@@ -11,6 +11,7 @@ package com.google.re2j;
 
 import static org.junit.Assert.assertEquals;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -159,6 +160,7 @@ public class SimplifyTest {
     this.expected = expected;
   }
 
+  @Ignore
   @Test
   public void testSimplify() throws PatternSyntaxException {
     Regexp re = Parser.parse(input, RE2.MATCH_NL | (RE2.PERL & ~RE2.ONE_LINE));

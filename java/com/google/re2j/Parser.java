@@ -123,7 +123,7 @@ class Parser {
             && re.runes[0] + 1 == re.runes[1]
             && Unicode.simpleFold(re.runes[0]) == re.runes[1]
             && Unicode.simpleFold(re.runes[1]) == re.runes[0])) {
-      // Case-insensitive rune like [Aa] or [Δδ].
+      //
       if (maybeConcat(re.runes[0], flags | RE2.FOLD_CASE)) {
         return null;
       }
