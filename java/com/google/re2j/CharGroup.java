@@ -33,7 +33,44 @@ class CharGroup {
 
   private static final int[] code3 = {
     /* \w */
-    0x30, 0x39, 0x41, 0x5a, 0x5f, 0x5f, 0x61, 0x7a,
+    // ASCII 0-9, A-Z, _, a-z
+    0x30, 0x39,
+    0x41, 0x5a,
+    0x5f, 0x5f,
+    0x61, 0x7a,
+
+    // 한글 (가 ~ 힣)
+    0xAC00, 0xD7A3,
+
+    // 라틴 보충 문자 (à, á, â, etc.)
+    0x00C0, 0x00FF,
+
+    // 키릴 문자 (러시아어 등)
+    0x0400, 0x04FF,
+
+    // 아라비아 문자
+    0x0600, 0x06FF,
+
+    // 히브리어
+    0x0590, 0x05FF,
+
+    // 한자 (중국어, 일본어 공통 CJK)
+    0x4E00, 0x9FFF,
+
+    // 가타카나/히라가나 (일본어)
+    0x3040, 0x309F,   // 히라가나
+    0x30A0, 0x30FF,   // 가타카나
+
+    // 태국 문자
+    0x0E00, 0x0E7F,
+
+    // 베트남어 및 기타 확장 문자 (라틴 확장-A)
+    0x0100, 0x017F,
+
+    // 숫자 (유니코드 전역 숫자)
+    0x0660, 0x0669,   // 아라비아 숫자
+    0x06F0, 0x06F9,   // 페르시아 숫자
+    0x0966, 0x096F,   // 데바나가리 숫자
   };
 
   static final HashMap<String, CharGroup> PERL_GROUPS = new HashMap<String, CharGroup>();
